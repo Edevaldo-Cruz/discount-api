@@ -112,7 +112,7 @@ router.get("/", proteger, UsuarioController.obterTodos);
  *           type: string
  *           format: password
  *           example: Senha@123
- *         role:
+ *         perfil:
  *           type: string
  *           enum: [user, admin]
  *           default: user
@@ -146,7 +146,7 @@ router.get("/", proteger, UsuarioController.obterTodos);
  *           type: string
  *           format: email
  *           example: joao@exemplo.com
- *         role:
+ *         perfil:
  *           type: string
  *           enum: [user, admin]
  *         criadoEm:

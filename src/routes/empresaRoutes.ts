@@ -1,6 +1,6 @@
-import { Router } from 'express';
-import EmpresaController from '../controllers/empresaController';
-import { proteger, autorizar } from '../middlewares/auth';
+import { Router } from "express";
+import EmpresaController from "../controllers/empresaController";
+import { proteger, autorizar } from "../middlewares/auth";
 
 const router = Router();
 
@@ -47,12 +47,12 @@ const router = Router();
  *       401:
  *         description: Não autorizado
  *       403:
- *         description: Acesso negado (requer role admin)
+ *         description: Acesso negado (requer perfil admin)
  */
 router
-  .route('/')
+  .route("/")
   .get(EmpresaController.obterTodasEmpresas)
-  .post(proteger, autorizar('admin'), EmpresaController.criarEmpresa);
+  .post(proteger, autorizar("admin"), EmpresaController.criarEmpresa);
 
 /**
  * @swagger
@@ -88,7 +88,12 @@ router
  *       403:
  *         description: Acesso negado
  */
-router.get('/estatisticas', proteger, autorizar('admin'), EmpresaController.obterEstatisticas);
+router.get(
+  "/estatisticas",
+  proteger,
+  autorizar("admin"),
+  EmpresaController.obterEstatisticas
+);
 
 /**
  * @swagger
@@ -112,7 +117,7 @@ router.get('/estatisticas', proteger, autorizar('admin'), EmpresaController.obte
  *               $ref: '#/components/schemas/Empresa'
  *       404:
  *         description: Empresa não encontrada
- * 
+ *
  *   put:
  *     summary: Atualiza uma empresa (requer autenticação)
  *     tags: [Empresas]
@@ -142,7 +147,7 @@ router.get('/estatisticas', proteger, autorizar('admin'), EmpresaController.obte
  *         description: Não autorizado
  *       404:
  *         description: Empresa não encontrada
- * 
+ *
  *   delete:
  *     summary: Desativa uma empresa (apenas admin)
  *     tags: [Empresas]
@@ -161,15 +166,15 @@ router.get('/estatisticas', proteger, autorizar('admin'), EmpresaController.obte
  *       401:
  *         description: Não autorizado
  *       403:
- *         description: Acesso negado (requer role admin)
+ *         description: Acesso negado (requer perfil admin)
  *       404:
  *         description: Empresa não encontrada
  */
 router
-  .route('/:id')
+  .route("/:id")
   .get(EmpresaController.obterEmpresa)
   .put(proteger, EmpresaController.atualizarEmpresa)
-  .delete(proteger, autorizar('admin'), EmpresaController.desativarEmpresa);
+  .delete(proteger, autorizar("admin"), EmpresaController.desativarEmpresa);
 
 /**
  * @swagger
@@ -201,7 +206,7 @@ router
  *         ativa:
  *           type: boolean
  *           default: true
- * 
+ *
  *     Empresa:
  *       allOf:
  *         - $ref: '#/components/schemas/EmpresaInput'

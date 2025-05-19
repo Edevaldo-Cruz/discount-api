@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import Empresa from '../models/Empresa';
-import { ErrorHandler } from '@utils/errorHandler';
+import { Request, Response, NextFunction } from "express";
+import Empresa from "../models/Empresa";
+import { ErrorHandler } from "@utils/errorHandler";
 
 class EmpresaController {
   /**
@@ -17,14 +17,14 @@ class EmpresaController {
       // Verificar se CNPJ já existe
       const empresaExistente = await Empresa.findOne({ cnpj: req.body.cnpj });
       if (empresaExistente) {
-        throw new ErrorHandler('CNPJ já cadastrado', 400);
+        throw new ErrorHandler("CNPJ já cadastrado", 400);
       }
 
       const empresa = await Empresa.create(req.body);
 
       res.status(201).json({
         success: true,
-        data: empresa
+        data: empresa,
       });
     } catch (err) {
       next(err);
@@ -51,7 +51,7 @@ class EmpresaController {
       res.status(200).json({
         success: true,
         count: empresas.length,
-        data: empresas
+        data: empresas,
       });
     } catch (err) {
       next(err);
@@ -72,12 +72,12 @@ class EmpresaController {
       const empresa = await Empresa.findById(req.params.id);
 
       if (!empresa) {
-        return next(new ErrorHandler('Empresa não encontrada', 404));
+        return next(new ErrorHandler("Empresa não encontrada", 404));
       }
 
       res.status(200).json({
         success: true,
-        data: empresa
+        data: empresa,
       });
     } catch (err) {
       next(err);
@@ -98,27 +98,32 @@ class EmpresaController {
       let empresa = await Empresa.findById(req.params.id);
 
       if (!empresa) {
-        return next(new ErrorHandler('Empresa não encontrada', 404));
+        return next(new ErrorHandler("Empresa não encontrada", 404));
       }
 
       // Verifica se é admin ou empresa dona
-      if (req.usuario.role !== 'admin' && empresa.id.toString() !== req.usuario.empresa.toString()) {
-        return next(new ErrorHandler('Não autorizado para atualizar esta empresa', 403));
+      if (
+        req.usuario.perfil !== "admin" &&
+        empresa.id.toString() !== req.usuario.empresa.toString()
+      ) {
+        return next(
+          new ErrorHandler("Não autorizado para atualizar esta empresa", 403)
+        );
       }
 
       // Não permite alterar CNPJ
       if (req.body.cnpj && req.body.cnpj !== empresa.cnpj) {
-        return next(new ErrorHandler('CNPJ não pode ser alterado', 400));
+        return next(new ErrorHandler("CNPJ não pode ser alterado", 400));
       }
 
       empresa = await Empresa.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-        runValidators: true
+        runValidators: true,
       });
 
       res.status(200).json({
         success: true,
-        data: empresa
+        data: empresa,
       });
     } catch (err) {
       next(err);
@@ -139,7 +144,7 @@ class EmpresaController {
       const empresa = await Empresa.findById(req.params.id);
 
       if (!empresa) {
-        return next(new ErrorHandler('Empresa não encontrada', 404));
+        return next(new ErrorHandler("Empresa não encontrada", 404));
       }
 
       // Marca como inativo em vez de deletar
@@ -147,7 +152,7 @@ class EmpresaController {
 
       res.status(200).json({
         success: true,
-        data: {}
+        data: {},
       });
     } catch (err) {
       next(err);
@@ -167,7 +172,7 @@ class EmpresaController {
     try {
       const estatisticas = await Empresa.aggregate([
         {
-          $match: { ativo: true }
+          $match: { ativo: true },
         },
         {
           $group: {
@@ -176,19 +181,27 @@ class EmpresaController {
             empresasCadastradasUltimoMes: {
               $sum: {
                 $cond: [
-                  { $gte: ["$dataCadastro", new Date(new Date().setMonth(new Date().getMonth() - 1))] },
+                  {
+                    $gte: [
+                      "$dataCadastro",
+                      new Date(new Date().setMonth(new Date().getMonth() - 1)),
+                    ],
+                  },
                   1,
-                  0
-                ]
-              }
-            }
-          }
-        }
+                  0,
+                ],
+              },
+            },
+          },
+        },
       ]);
 
       res.status(200).json({
         success: true,
-        data: estatisticas[0] || { totalEmpresas: 0, empresasCadastradasUltimoMes: 0 }
+        data: estatisticas[0] || {
+          totalEmpresas: 0,
+          empresasCadastradasUltimoMes: 0,
+        },
       });
     } catch (err) {
       next(err);
