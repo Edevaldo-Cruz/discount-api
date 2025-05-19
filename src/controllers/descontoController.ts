@@ -5,7 +5,7 @@ import { ErrorHandler } from '@utils/errorHandler';
 class DescontoController {
   /**
    * @desc    Criar novo desconto
-   * @route   POST /api/v1/descontos
+   * @route   POST /descontos
    * @access  Privado (Empresa)
    */
   static async criar(
@@ -31,7 +31,7 @@ class DescontoController {
 
   /**
    * @desc    Obter todos os descontos
-   * @route   GET /api/v1/descontos
+   * @route   GET /descontos
    * @access  Público
    */
   static async listarTodos(_: Request, res: Response, next: NextFunction): Promise<void> {
@@ -50,7 +50,7 @@ class DescontoController {
 
   /**
    * @desc    Obter desconto por ID
-   * @route   GET /api/v1/descontos/:id
+   * @route   GET /descontos/:id
    * @access  Público
    */
   static async obterPorId(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -72,7 +72,7 @@ class DescontoController {
 
   /**
    * @desc    Atualizar desconto
-   * @route   PUT /api/v1/descontos/:id
+   * @route   PUT /descontos/:id
    * @access  Privado (Empresa)
    */
   static async atualizar(
@@ -107,7 +107,7 @@ class DescontoController {
 
   /**
    * @desc    Deletar (desativar) desconto
-   * @route   DELETE /api/v1/descontos/:id
+   * @route   DELETE /descontos/:id
    * @access  Privado (Empresa)
    */
   static async deletar(
@@ -140,7 +140,7 @@ class DescontoController {
 
   /**
    * @desc    Listar descontos por empresa
-   * @route   GET /api/v1/descontos/empresa/:empresaId
+   * @route   GET /descontos/empresa/:empresaId
    * @access  Público
    */
   static async listarPorEmpresa(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -162,7 +162,7 @@ class DescontoController {
 
   /**
    * @desc    Listar descontos próximos do vencimento (até 7 dias)
-   * @route   GET /api/v1/descontos/proximos-vencimento
+   * @route   GET /descontos/proximos-vencimento
    * @access  Público
    */
   static async listarProximosVencimento(

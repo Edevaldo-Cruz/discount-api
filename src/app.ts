@@ -4,6 +4,8 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 import rateLimit from "express-rate-limit";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 import usuarioRoutes from "./routes/usuarioRoutes";
 import empresaRoutes from "./routes/empresaRoutes";
 import descontoRoutes from "./routes/descontoRoutes";
@@ -15,6 +17,7 @@ class App {
   constructor() {
     this.app = express();
     this.config();
+    this.setupSwagger(); // Adicionado aqui
     this.routes();
     this.errorHandling();
   }
@@ -34,6 +37,38 @@ class App {
       max: 100,
     });
     this.app.use(limiter);
+  }
+
+  private setupSwagger(): void {
+    const options = {
+      definition: {
+        openapi: "3.0.0",
+        info: {
+          title: "API Documentation",
+          version: "1.0.0",
+          description: "Documentação da API",
+        },
+        servers: [
+          {
+            url: "/api/v1",
+            description: "API Base URL",
+          },
+        ],
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
+        },
+      },
+      apis: ["./src/routes/*.ts"], // Ajuste conforme sua estrutura de arquivos
+    };
+
+    const specs = swaggerJsdoc(options);
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
   }
 
   private routes(): void {

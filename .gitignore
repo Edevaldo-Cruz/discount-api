@@ -1,0 +1,30 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+*.log
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Environment variables
+.env
+
+# Editor configs
+.vscode/
+.idea/
+*.swp
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Test output
+coverage/
+
+# Nodemon
+nodemon-debug.log

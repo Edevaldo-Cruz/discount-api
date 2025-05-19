@@ -5,7 +5,7 @@ import { ErrorHandler } from '@utils/errorHandler';
 class EmpresaController {
   /**
    * @desc    Criar nova empresa
-   * @route   POST /api/v1/empresas
+   * @route   POST /empresas
    * @access  Privado (Admin)
    */
   static async criarEmpresa(
@@ -33,7 +33,7 @@ class EmpresaController {
 
   /**
    * @desc    Obter todas empresas
-   * @route   GET /api/v1/empresas
+   * @route   GET /empresas
    * @access  Público
    */
   static async obterTodasEmpresas(
@@ -60,7 +60,7 @@ class EmpresaController {
 
   /**
    * @desc    Obter empresa específica
-   * @route   GET /api/v1/empresas/:id
+   * @route   GET /empresas/:id
    * @access  Público
    */
   static async obterEmpresa(
@@ -86,7 +86,7 @@ class EmpresaController {
 
   /**
    * @desc    Atualizar empresa
-   * @route   PUT /api/v1/empresas/:id
+   * @route   PUT /empresas/:id
    * @access  Privado (Admin ou Empresa dona)
    */
   static async atualizarEmpresa(
@@ -127,7 +127,7 @@ class EmpresaController {
 
   /**
    * @desc    Desativar empresa
-   * @route   DELETE /api/v1/empresas/:id
+   * @route   DELETE /empresas/:id
    * @access  Privado (Admin)
    */
   static async desativarEmpresa(
@@ -156,7 +156,7 @@ class EmpresaController {
 
   /**
    * @desc    Obter estatísticas das empresas
-   * @route   GET /api/v1/empresas/estatisticas
+   * @route   GET /empresas/estatisticas
    * @access  Privado (Admin)
    */
   static async obterEstatisticas(
