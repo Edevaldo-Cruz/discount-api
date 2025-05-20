@@ -13,6 +13,7 @@ export interface IUsuario extends Document {
   perfil: PerfilUsuario;
   ativo: boolean;
   comparePassword(password: string): Promise<boolean>;
+   dataCadastro: Date;
 }
 
 export interface IUsuarioInput {
