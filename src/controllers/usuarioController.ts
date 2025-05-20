@@ -12,7 +12,8 @@ interface AuthRequest extends Request {
 class UsuarioController {
   // Registrar usuário
   static async registrar(
-    req: Request<{}, {}, { nome: string; email: string; senha: string; perfil?: PerfilUsuario; empresa: string }>,
+    req: Request<{}, {},
+      { nome: string; email: string; senha: string; perfil?: PerfilUsuario; empresa: string }>,
     res: Response,
     next: NextFunction
   ): Promise<void> {
