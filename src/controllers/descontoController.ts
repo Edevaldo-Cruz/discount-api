@@ -1,6 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import Desconto from '../models/Desconto';
-import { ErrorHandler } from '@utils/errorHandler';
+// Se estiver usando path alias @utils, verifique se está configurado corretamente no tsconfig.json
+// import { ErrorHandler } from '@utils/errorHandler';
+import { ErrorHandler } from '../utils/errorHandler'; // Use este caso o alias não funcione no Render
+import { NextFunction } from 'express';
+
+// Interface para tipar o usuário autenticado
+interface UsuarioAutenticado {
+  empresa: string;
+}
+
+// Interface estendida do Request para incluir o usuário
+interface RequestComUsuario extends Request {
+  usuario?: UsuarioAutenticado;
+}
 
 class DescontoController {
   /**
@@ -9,14 +22,14 @@ class DescontoController {
    * @access  Privado (Empresa)
    */
   static async criar(
-    req: Request & { usuario?: any },
+    req: RequestComUsuario,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
       const novoDesconto = await Desconto.create({
-        ...req.body,
-        empresa: req.usuario.empresa,
+        ...(req.body ?? {}),
+        empresa: req.usuario?.empresa,
         ativo: true
       });
 
@@ -76,7 +89,7 @@ class DescontoController {
    * @access  Privado (Empresa)
    */
   static async atualizar(
-    req: Request & { usuario?: any },
+    req: RequestComUsuario,
     res: Response,
     next: NextFunction
   ): Promise<void> {
@@ -87,14 +100,18 @@ class DescontoController {
         return next(new ErrorHandler('Desconto não encontrado', 404));
       }
 
-      if (desconto.empresa.toString() !== req.usuario.empresa.toString()) {
+      if (desconto.empresa.toString() !== req.usuario?.empresa) {
         return next(new ErrorHandler('Acesso negado à atualização deste desconto', 403));
       }
 
-      const descontoAtualizado = await Desconto.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true
-      });
+      const descontoAtualizado = await Desconto.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+          new: true,
+          runValidators: true
+        }
+      );
 
       res.status(200).json({
         success: true,
@@ -111,7 +128,7 @@ class DescontoController {
    * @access  Privado (Empresa)
    */
   static async deletar(
-    req: Request & { usuario?: any },
+    req: RequestComUsuario,
     res: Response,
     next: NextFunction
   ): Promise<void> {
@@ -122,7 +139,7 @@ class DescontoController {
         return next(new ErrorHandler('Desconto não encontrado', 404));
       }
 
-      if (desconto.empresa.toString() !== req.usuario.empresa.toString()) {
+      if (desconto.empresa.toString() !== req.usuario?.empresa) {
         return next(new ErrorHandler('Acesso negado à exclusão deste desconto', 403));
       }
 

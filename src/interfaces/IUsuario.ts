@@ -1,4 +1,3 @@
-// src/interfaces/IUsuario.ts
 import { Document, Types } from 'mongoose';
 
 export enum PerfilUsuario {
@@ -13,7 +12,6 @@ export interface IUsuario extends Document {
   empresa: Types.ObjectId;
   perfil: PerfilUsuario;
   ativo: boolean;
-  dataCadastro: Date;
   comparePassword(password: string): Promise<boolean>;
 }
 
@@ -21,6 +19,6 @@ export interface IUsuarioInput {
   nome: string;
   email: string;
   senha: string;
-  empresa: string;
   perfil?: PerfilUsuario;
+  empresa: string;
 }

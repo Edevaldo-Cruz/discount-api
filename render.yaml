@@ -1,13 +1,10 @@
 services:
   - type: web
-    name: discount-api
+    name: sua-api
     runtime: node
-    branch: main
-    buildCommand: npm run render-build
+    buildCommand: |
+      npm install
+      npm install --only=dev  
+      npm run build
+      npm prune --production
     startCommand: npm start
-    env: node
-    envVars:
-      - key: NODE_ENV
-      - key: PORT
-      - key: MONGODB_URI
-      - key: JWT_SECRET
