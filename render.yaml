@@ -1,17 +1,13 @@
 services:
   - type: web
-    name: discount-api # Nome do seu serviço no Render
+    name: discount-api
     runtime: node
-    branch: main # Branch que será usada no deploy
-    buildCommand: npm install && npm run build
+    branch: main
+    buildCommand: npm run render-build
     startCommand: npm start
     env: node
     envVars:
       - key: NODE_ENV
-        value: production
       - key: PORT
-        value: 10000
       - key: MONGODB_URI
-        value: mongodb+srv://api-user:senha123@banco1.h5bxdig.mongodb.net/?retryWrites=true&w=majority&appName=banco1
       - key: JWT_SECRET
-        value: seuSegredoSuperSecreto
