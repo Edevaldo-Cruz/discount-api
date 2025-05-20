@@ -8,8 +8,8 @@
     "test": "jest --watchAll",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
-    "prebuild": "npm install --save-dev @types/express @types/morgan @types/cors @types/swagger-jsdoc @types/swagger-ui-express @types/jsonwebtoken @types/bcryptjs ",
-    "render-build": "tsc"
+    "prebuild": "npm install",
+    "render-build": "npm ci && npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

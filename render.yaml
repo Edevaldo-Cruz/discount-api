@@ -3,8 +3,15 @@ services:
     name: sua-api
     runtime: node
     buildCommand: |
-      npm install
-      npm install --only=dev  
+      # Limpeza para garantir build limpo
+      rm -rf node_modules dist package-lock.json
+
+      # Instalação otimizada
+      npm ci --no-audit
+
+      # Build do projeto
       npm run build
+
+      # Remove devDependencies após o build
       npm prune --production
-    startCommand: npm start
+    startCommand: node dist/server.js
